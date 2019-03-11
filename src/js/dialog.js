@@ -1,5 +1,6 @@
 const Dialog = (function () {
     return class Dialog {
+
         _reject = null;
         _resolve = null;
 
@@ -21,6 +22,7 @@ const Dialog = (function () {
                 container = element;
             }
 
+            // set values
             this.title = title;
             this._content = content;
             this.container = container;
@@ -46,6 +48,18 @@ const Dialog = (function () {
             });
         }
 
+        /**
+         * Compose a Button Element
+         * @param {String} text
+         * @param {String} type
+         * @param {String|Array} css
+         * @param {String} icon
+         * @param {String|Array} iconCss
+         * @param {Function} click
+         * @param {String} style
+         * @returns {HTMLElement}
+         * @constructor
+         */
         static Button ({text = '', type = 'button', css, icon, iconCss, click, style = ''} = {}) {
             let btn = document.createElement('button');
             btn.classList.add('btn', 'waves-effect', 'waves-light');
@@ -77,6 +91,10 @@ const Dialog = (function () {
             return btn;
         }
 
+        /**
+         * Compose the dialog modal
+         * @returns {HTMLElement}
+         */
         dom () {
             let dialog = document.createElement('div');
             dialog.classList.add('modal');
@@ -84,10 +102,13 @@ const Dialog = (function () {
             dialog.appendChild(this.content());
             dialog.appendChild(this.footer());
 
-
             return dialog;
         }
 
+        /**
+         * Compose the dialog overlay dom
+         * @returns {HTMLElement}
+         */
         overlayDom () {
             let div  = document.createElement('div');
             div.classList.add('modal-overlay');
@@ -96,6 +117,10 @@ const Dialog = (function () {
             return div;
         }
 
+        /**
+         * Compose the dialog content dom
+         * @returns {HTMLElement}
+         */
         content () {
             let content = document.createElement('div');
             content.classList.add('modal-content');
@@ -115,6 +140,10 @@ const Dialog = (function () {
             return content;
         }
 
+        /**
+         * Compose the dialog footer
+         * @returns {HTMLElement}
+         */
         footer () {
             let footer = document.createElement('footer');
             footer.classList.add('modal-footer');
@@ -137,15 +166,22 @@ const Dialog = (function () {
             return footer;
         }
 
+        /**
+         * Open the dialog
+         */
         open () {
             this.overlay.setAttribute('style', 'z-index: 1002; display: block; opacity: 0.5;');
 
             this.element.classList.add('open');
             this.element.setAttribute('style', 'z-index: 1003; display: block; opacity: 1; top: 10%; transform: scaleX(1) scaleY(1);');
 
+            // on open callback
             if(typeof this.onOpen === 'function') this.onOpen();
         }
 
+        /**
+         * Close the dialog
+         */
         close () {
             this.overlay.setAttribute('style', '');
 
@@ -153,12 +189,19 @@ const Dialog = (function () {
             this.element.setAttribute('style', '');
         }
 
+        /**
+         * Cancel the dialog and then close it
+         */
         cancel () {
             this.close();
             this._reject(new Error('User closed dialog.'));
         }
 
+        /**
+         * Save and close the dialog
+         */
         save () {
+            // on save callback
             if(typeof this.onSave === 'function') this.onSave();
 
             this.close();
