@@ -49,14 +49,29 @@ const PomodoroTask = (function () {
             this.start();
         }
 
+        /**
+         * Getter for the time
+         * Returns the time formatted
+         * @returns {string}
+         */
         get time () {
             return PomodoroTask.FormatTime(this._time);
         }
 
+        /**
+         * Getter for the original time
+         * Returns the original time formatted
+         * @returns {string}
+         */
         get originalTime () {
             return PomodoroTask.FormatTime(this._originalTime);
         }
 
+        /**
+         * Getter for the element
+         * Returns the task dom element
+         * @returns {HTMLElement}
+         */
         get element () {
             if(!this._element) this._element = this.dom();
             return this._element;
@@ -181,6 +196,9 @@ const PomodoroTask = (function () {
             clearInterval(this._interval);
         }
 
+        /**
+         * Clear the current time
+         */
         clear () {
             this._time = 0;
         }

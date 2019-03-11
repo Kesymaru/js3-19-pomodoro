@@ -205,8 +205,7 @@ const Pomodoro = (function () {
                 }
             }
 
-            dialog.promise
-                .catch(err => console.error(err));
+            dialog.promise.catch(err => console.error(err));
         }
 
         /**
