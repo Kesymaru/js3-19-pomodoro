@@ -20,3 +20,8 @@ footer {
     bottom: 0;
     width: 100%;
 }
+
+#addBtn {
+    -webkit-transition: all 1s ease 0s;
+    transition: all 1s ease 0s;
+}

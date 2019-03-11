@@ -22,7 +22,7 @@
             </a>
             <ul id="nav-mobile" class="right">
                 <li>
-                    <a id="addBtn">
+                    <a id="addBtn" class="pulse">
                         <i class="material-icons">close</i>
                     </a>
                 </li>
@@ -30,41 +30,45 @@
         </div>
     </nav>
 
-    <form id="pomodoro-form" class="row cyan darken-3">
-        <div class="col s12 m4 l4">
-            <div class="row">
-                <div class="input-field col s12 white-text">
-                    <i class="material-icons prefix">grade</i>
-                    <input class="white-text" id="name" type="text" placeholder="Name" class="validate" required>
+    <form id="pomodoro-form" class="row">
+        <div class="col m2 l3 hide-on-small-only"></div>
+        <div class="col s12 m8 l6 cyan darken-3">
+            <div class="col s12 m4 l4">
+                <div class="row">
+                    <div class="input-field col s12 white-text">
+                        <i class="material-icons prefix">grade</i>
+                        <input class="white-text" id="name" type="text" placeholder="Name" class="validate" required>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m4 l4">
+                <div class="row">
+                    <div class="input-field col s12 white-text">
+                        <i class="material-icons prefix">comment</i>
+                        <input class="white-text" id="description" type="text" placeholder="Description" class="validate">
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m4 l4">
+                <div class="row">
+                    <div class="input-field col s12 white-text">
+                        <i class="material-icons prefix">alarm</i>
+                        <input class="white-text" id="time" type="number" min="1" placeholder="Time" class="validate" required>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12">
+                <div class="row">
+                    <div class="col s6">
+                        <button type="reset" class="btn red">Reset</button>
+                    </div>
+                    <div class="col s6">
+                        <button type="submit" name="save" class="btn cyan right">Save</button>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col s12 m4 l4">
-            <div class="row">
-                <div class="input-field col s12 white-text">
-                    <i class="material-icons prefix">comment</i>
-                    <input class="white-text" id="description" type="text" placeholder="Description" class="validate">
-                </div>
-            </div>
-        </div>
-        <div class="col s12 m4 l4">
-            <div class="row">
-                <div class="input-field col s12 white-text">
-                    <i class="material-icons prefix">alarm</i>
-                    <input class="white-text" id="time" type="number" min="1" placeholder="Time" class="validate" required>
-                </div>
-            </div>
-        </div>
-        <div class="col s12">
-            <div class="row">
-                <div class="col s6">
-                    <button type="reset" class="btn red">Reset</button>
-                </div>
-                <div class="col s6">
-                    <button type="submit" name="save" class="btn cyan right">Save</button>
-                </div>
-            </div>
-        </div>
+        <div class="col m2 l3 hide-on-small-only"></div>
     </form>
     <section id="container" class="row"></section>
 

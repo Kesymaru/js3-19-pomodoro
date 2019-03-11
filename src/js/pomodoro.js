@@ -100,6 +100,7 @@ const Pomodoro = (function () {
          */
         resize () {
             if(this._formOpen) this.form.style.top = `${this.nav.offsetHeight}px`;
+            else this.form.style.top = `-${this.form.offsetHeight+100}px`;
         }
 
         /**
