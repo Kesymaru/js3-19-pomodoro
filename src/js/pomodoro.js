@@ -9,13 +9,13 @@ const Pomodoro = (function () {
     // Pomodoro class
     return class Pomodoro {
 
-        formOpen = true;
+        _formOpen = true;
 
         /**
          * Init the Pomodoro
          * @param {String|HTMLElement} container
          */
-        constructor (container, addBtn) {
+        constructor (container, form, nav, addBtn) {
             // valid the container
             if(typeof container === 'string'){
                 let element = document.querySelector(container);
@@ -24,6 +24,24 @@ const Pomodoro = (function () {
             }
             if(!(container instanceof HTMLElement))
                 throw new Error(`Invalid container: ${container}`);
+
+            // valid the form
+            if(typeof form === 'string'){
+                let element = document.querySelector(form);
+                if(!element) throw new Error(`Form not found: ${form}`);
+                form = element;
+            }
+            if(!(form instanceof HTMLElement))
+                throw new Error(`Invalid form: ${form}`);
+
+            // valid the nav
+            if(typeof nav === 'string'){
+                let element = document.querySelector(nav);
+                if(!element) throw new Error(`Nav not found: ${nav}`);
+                nav = element;
+            }
+            if(!(nav instanceof HTMLElement))
+                throw new Error(`Invalid nav: ${nav}`);
 
             // valid the addBtn
             if(typeof addBtn === 'string'){
@@ -34,13 +52,12 @@ const Pomodoro = (function () {
             if(!(addBtn instanceof HTMLElement))
                 throw new Error(`Invalid add button: ${addBtn}`);
 
+            // elements
             this.container = container;
-            this.form = this.container.querySelector('form');
+            this.form = form;
+            this.nav = nav;
             this.addBtn = addBtn;
             this.addBtnIcon = this.addBtn.querySelector('i');
-
-            this.list = this.dom();
-            this.container.appendChild(this.list);
 
             // events
             this.form.addEventListener('submit', this.formSubmit.bind(this));
@@ -51,19 +68,6 @@ const Pomodoro = (function () {
 
             // register the pomodoro data subscriptions
             this._registerSubscritions();
-
-            this.resize();
-        }
-
-        /**
-         * Compose pomodoro list container
-         * @returns {HTMLElement}
-         */
-        dom () {
-            let div  = document.createElement('div');
-            div.classList.add('row');
-
-            return div;
         }
 
         /**
@@ -95,18 +99,7 @@ const Pomodoro = (function () {
          * Method called when the window is resized
          */
         resize () {
-            let witdh = window.innerWidth;
-            if(witdh <= 600) this.container.classList.remove('container');
-            else this.container.classList.add('container');
-
-            if(!this.formOpen){
-                this.form.classList.add('done');
-                this.form.style.marginTop = `-${this.form.offsetHeight}px`;
-
-                setTimeout(() => {
-                    this.form.classList.remove('done');
-                }, 1000);
-            }
+            if(this._formOpen) this.form.style.top = `${this.nav.offsetHeight}px`;
         }
 
         /**
@@ -123,7 +116,7 @@ const Pomodoro = (function () {
             try {
                 let task = new PomodoroTask(name, description, time);
                 DATA.add(task);
-                this.formToggle();
+                this.formClose();
             } catch (err) {
                 this.formError(err);
             }
@@ -146,15 +139,29 @@ const Pomodoro = (function () {
          * Add the class to start the CSS3 animation
          */
         formToggle () {
-            this.formOpen = !this.formOpen;
+            if(this._formOpen) this.formClose();
+            else this.formOpen();
+        }
 
-            this.addBtnIcon.innerText = this.formOpen ? 'close' : 'add';
+        /**
+         * Close the form
+         */
+        formClose () {
+            this.addBtnIcon.innerText = 'add';
+            this.form.style.top = `-${this.form.offsetHeight+100}px`;
 
-            // this.form.classList.toggle('open');
-            if(!this.formOpen) this.form.style.marginTop = `-${this.form.offsetHeight}px`;
-            else this.form.style.marginTop = '0px';
+            this._formOpen = !this._formOpen;
+        }
 
-            if(this.formOpen) this.form.name.focus();
+        /**
+         * Open the form
+         */
+        formOpen () {
+            this.addBtnIcon.innerText = 'close';
+            this.form.style.top = `${this.nav.offsetHeight}px`;
+            this.form.name.focus();
+
+            this._formOpen = !this._formOpen;
         }
 
         /**
@@ -292,7 +299,7 @@ const Pomodoro = (function () {
                 throw new Error(`Invalid task: ${task}`);
 
             // render the new task inside the container
-            this.list.appendChild(task.element);
+            this.container.appendChild(task.element);
         }
 
         /**
@@ -349,7 +356,7 @@ const Pomodoro = (function () {
             task.stop();
             DATA.remove(task);
 
-            this.list.removeChild(task.element);
+            this.container.removeChild(task.element);
         }
 
         /**

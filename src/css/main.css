@@ -1,16 +1,22 @@
+html, body {
+    height: 100%;
+}
+
 nav {
     position: relative;
     z-index: 100;
 }
 
-form {
+#pomodoro-form {
     -webkit-transition: all 1s ease 0s;
     transition: all 1s ease 0s;
-
-    position: relative;
+    position: fixed;
+    z-index: 10;
+    width: 100%;
 }
 
-form.done {
-    -webkit-transition: none;
-    transition: none;
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
