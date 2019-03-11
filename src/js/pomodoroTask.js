@@ -44,8 +44,6 @@ const PomodoroTask = (function () {
             this._originalTime = time;
             this.id = id++;
 
-            console.log(this);
-
             // compose the task dom and start it
             this._element = this.dom();
             this.start();
@@ -201,8 +199,6 @@ const PomodoroTask = (function () {
          */
         remove () {
             this.removed = true;
-            console.log('remove task', this);
-
             Mediator.Publish(PomodoroTask.Subscritions.REMOVE, this)
         }
     }
