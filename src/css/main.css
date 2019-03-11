@@ -1,0 +1,16 @@
+nav {
+    position: relative;
+    z-index: 100;
+}
+
+form {
+    -webkit-transition: all 1s ease 0s;
+    transition: all 1s ease 0s;
+
+    position: relative;
+}
+
+form.done {
+    -webkit-transition: none;
+    transition: none;
+}
