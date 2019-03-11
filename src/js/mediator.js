@@ -33,7 +33,6 @@ const Mediator = (function () {
 
             // returns the unsubscribe method
             return () => Mediator.Unsubscribe(topic, callback);
-
         };
 
         /**
