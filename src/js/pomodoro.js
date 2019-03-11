@@ -16,6 +16,7 @@ const Pomodoro = (function () {
          * @param {String|HTMLElement} container
          */
         constructor (container, addBtn) {
+            // valid the container
             if(typeof container === 'string'){
                 let element = document.querySelector(container);
                 if(!element) throw new Error(`Container not found: ${container}`);
@@ -24,7 +25,7 @@ const Pomodoro = (function () {
             if(!(container instanceof HTMLElement))
                 throw new Error(`Invalid container: ${container}`);
 
-
+            // valid the addBtn
             if(typeof addBtn === 'string'){
                 let element = document.querySelector(addBtn);
                 if(!element) throw new Error(`Add button not found: ${addBtn}`);
@@ -54,6 +55,10 @@ const Pomodoro = (function () {
             this.resize();
         }
 
+        /**
+         * Compose pomodoro list container
+         * @returns {HTMLElement}
+         */
         dom () {
             let div  = document.createElement('div');
             div.classList.add('row');
@@ -69,10 +74,10 @@ const Pomodoro = (function () {
             for(let sub in PomodoroTask.Subscritions){
                 switch (sub) {
                     case 'ADDED':
-                        Mediator.Subscribe(PomodoroTask.Subscritions.ADDED, this.add.bind(this));
+                        Mediator.Subscribe(PomodoroTask.Subscritions.ADDED, this.added.bind(this));
                         break;
                     case 'FINISHED':
-                        Mediator.Subscribe(PomodoroTask.Subscritions.FINISHED, this.finish.bind(this));
+                        Mediator.Subscribe(PomodoroTask.Subscritions.FINISHED, this.finished.bind(this));
                         break;
                     case 'REMOVE':
                         Mediator.Subscribe(PomodoroTask.Subscritions.REMOVE, this.remove.bind(this));
@@ -86,6 +91,9 @@ const Pomodoro = (function () {
             }
         }
 
+        /**
+         * Method called when the window is resized
+         */
         resize () {
             let witdh = window.innerWidth;
             if(witdh <= 600) this.container.classList.remove('container');
@@ -101,6 +109,10 @@ const Pomodoro = (function () {
             }
         }
 
+        /**
+         * Method to submit the form
+         * @param {Event} event
+         */
         formSubmit (event) {
             event.preventDefault();
 
@@ -116,9 +128,13 @@ const Pomodoro = (function () {
                 this.formError(err);
             }
 
+            // reset
             this.formReset()
         }
 
+        /**
+         * Reset the form values
+         */
         formReset () {
             this.form.name.value = '';
             this.form.description.value = '';
@@ -141,6 +157,10 @@ const Pomodoro = (function () {
             if(this.formOpen) this.form.name.focus();
         }
 
+        /**
+         * Logs the form errors
+         * @param error
+         */
         formError (error) {
             console.error(error);
         }
@@ -169,7 +189,6 @@ const Pomodoro = (function () {
 
             // method for the save and submit
             function savePicker (event = null) {
-                console.log('save picker', event);
                 if(event) event.preventDefault();
 
                 let hours = parseInt(form.hours.value || 0);
@@ -265,7 +284,11 @@ const Pomodoro = (function () {
             return col;
         }
 
-        add (task) {
+        /**
+         * When a task has been added
+         * @param {PomodoroTask} task
+         */
+        added (task) {
             if(!task || !(task instanceof PomodoroTask))
                 throw new Error(`Invalid task: ${task}`);
 
@@ -273,7 +296,11 @@ const Pomodoro = (function () {
             this.list.appendChild(task.element);
         }
 
-        finish (task) {
+        /**
+         * When a task has been finished
+         * @param task
+         */
+        finished (task) {
             if(!task || !(task instanceof PomodoroTask))
                 throw new Error(`Invalid task: ${task}`);
 
@@ -331,8 +358,6 @@ const Pomodoro = (function () {
          * @param task
          */
         onRemoved (task) {
-            console.log('onRemoved', DATA.data);
-
             if(!DATA.data.length) this.formToggle();
         }
     };
