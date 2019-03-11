@@ -2,7 +2,7 @@
 This is the solution for the Javascript Pomodoro exercice
 
 ## JS Code
-This code uses es6 classes, Mediator, Singleton and Module retrive desing patterns
+This code uses es6 classes, Mediator, Singleton and Module Retrieve desing patterns
 
 ## CSS
 This project uses materialize for the css
