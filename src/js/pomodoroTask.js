@@ -283,6 +283,7 @@ const PomodoroTask = (function () {
          */
         restart () {
             this._time = this._originalTime;
+            this._timeElement.innerText = this.time;
             this.start();
         }
     }

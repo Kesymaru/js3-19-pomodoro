@@ -1,5 +1,8 @@
 html, body {
+    margin: 0;
+    padding: 0;
     height: 100%;
+    width: 100%;
 }
 
 nav {
@@ -19,9 +22,15 @@ footer {
     position: fixed;
     bottom: 0;
     width: 100%;
+    z-index: 100;
+    margin-top: 120px;
 }
 
 #addBtn {
     -webkit-transition: all 1s ease 0s;
     transition: all 1s ease 0s;
+}
+
+.modal-content {
+    min-height: 200px;
 }
