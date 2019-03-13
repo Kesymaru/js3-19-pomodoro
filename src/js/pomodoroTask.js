@@ -18,6 +18,9 @@ const PomodoroTask = (function () {
 
         _interval = null;
         _element = null;
+        _btnStop = null;
+        _btnStart = null;
+        _btnRestart = null;
         _time = 0;
         _timeElement = null;
 
@@ -65,6 +68,14 @@ const PomodoroTask = (function () {
          */
         get originalTime () {
             return PomodoroTask.FormatTime(this._originalTime);
+        }
+
+        /**
+         * Getter for the stopped flag
+         * @returns {boolean}
+         */
+        get stopped () {
+            return !!this._interval;
         }
 
         /**
@@ -155,13 +166,30 @@ const PomodoroTask = (function () {
             let actions = document.createElement('div');
             actions.classList.add('card-action');
 
-            actions.appendChild(Dialog.Button({
-                // text: 'Stop',
+            this._btnStop = Dialog.Button({
                 css: 'cyan',
                 icon: 'stop',
                 iconCss: 'center',
                 click: this.stop.bind(this)
-            }));
+            });
+            actions.appendChild(this._btnStop);
+
+            this._btnStart = Dialog.Button({
+                css: ['cyan', 'hide'],
+                icon: 'play_arrow',
+                iconCss: 'center',
+                click: this.start.bind(this)
+            });
+            actions.appendChild(this._btnStart);
+
+            this._btnRestart = Dialog.Button({
+                css: ['cyan', 'hide'],
+                icon: 'replay',
+                iconCss: 'center',
+                click: this.restart.bind(this)
+            });
+            actions.appendChild(this._btnRestart);
+
             actions.appendChild(Dialog.Button({
                 css: ['red', 'right'],
                 icon: 'close',
@@ -178,14 +206,28 @@ const PomodoroTask = (function () {
         start () {
             if(this._interval) return false;
 
+            // toggle the buttons
+            this._btnStart.classList.add('hide');
+            this._btnStop.classList.remove('hide');
+            this._btnRestart.classList.add('hide');
+
+            this.element.firstChild.classList.add('accent-4');
+            this.element.firstChild.classList.remove('darken-3');
+
+            // set the interval
             this._interval = setInterval(() => {
                 this._time = --this._time;
+
+                // add the class pulse for the last 10 seconds animation
+                if(!this.element.firstChild.classList.contains('pulse') && this._time <= 10)
+                    this.element.firstChild.classList.add('pulse');
 
                 // task finished
                 if(this._time <= 0 ) this.finish();
 
                 // update the timer
                 this._timeElement.innerText = this.time;
+
             }, 1000);
         }
 
@@ -194,6 +236,12 @@ const PomodoroTask = (function () {
          */
         stop () {
             clearInterval(this._interval);
+            this._interval = null;
+
+            this._btnStart.classList.remove('hide');
+            this._btnStop.classList.add('hide');
+
+            this.element.firstChild.classList.remove('pulse');
         }
 
         /**
@@ -209,6 +257,16 @@ const PomodoroTask = (function () {
         finish () {
             this.stop();
             this.finished = true;
+            this.element.firstChild.classList.remove('pulse');
+
+            this._btnStart.classList.add('hide');
+            this._btnStop.classList.add('hide');
+            this._btnRestart.classList.remove('hide');
+
+            this.element.firstChild.classList.remove('accent-4');
+            this.element.firstChild.classList.add('darken-3');
+
+
             Mediator.Publish(PomodoroTask.Subscritions.FINISHED, this);
         }
 
@@ -218,6 +276,14 @@ const PomodoroTask = (function () {
         remove () {
             this.removed = true;
             Mediator.Publish(PomodoroTask.Subscritions.REMOVE, this)
+        }
+
+        /**
+         * Re start a task that already finished
+         */
+        restart () {
+            this._time = this._originalTime;
+            this.start();
         }
     }
 })();
