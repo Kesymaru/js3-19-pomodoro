@@ -9,6 +9,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    overflow-x: hidden;
 }
 
 nav {
@@ -19,15 +20,11 @@ nav {
 #pomodoro-form {
     -webkit-transition: all 1s ease 0s;
     transition: all 1s ease 0s;
-    position: fixed;
+    /*position: fixed;*/
+    position: absolute;
+    top: -450px;
     z-index: 10;
     width: 100%;
-}
-
-footer {
-    /*position: absolute;*/
-    /*bottom: 0;*/
-    /*width: 100%;*/
 }
 
 #addBtn {
@@ -40,6 +37,6 @@ footer {
 }
 
 section#container {
-    flex: 1;
-    margin-bottom: 120px;
+    flex: 1 1 auto;
+    width: 100%;
 }

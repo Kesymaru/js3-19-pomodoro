@@ -9,7 +9,7 @@ const Pomodoro = (function () {
     // Pomodoro class
     return class Pomodoro {
 
-        _formOpen = true;
+        _formOpen = false;
 
         /**
          * Init the Pomodoro
@@ -68,6 +68,9 @@ const Pomodoro = (function () {
 
             // register the pomodoro data subscriptions
             this._registerSubscritions();
+
+            // open the form with animation
+            this.formOpen();
         }
 
         /**
