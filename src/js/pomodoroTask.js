@@ -121,7 +121,7 @@ const PomodoroTask = (function () {
             col.setAttribute('pomodoro-id', this.id);
 
             let card = document.createElement('div');
-            card.classList.add('card', 'cyan', 'accent-4');
+            card.classList.add('card', 'cyan');
 
             card.appendChild(this.header());
             card.appendChild(this.footer());
@@ -211,8 +211,7 @@ const PomodoroTask = (function () {
             this._btnStop.classList.remove('hide');
             this._btnRestart.classList.add('hide');
 
-            this.element.firstChild.classList.add('accent-4');
-            this.element.firstChild.classList.remove('darken-3');
+            this.element.firstChild.classList.remove('darken-2', 'darken-4');
 
             // set the interval
             this._interval = setInterval(() => {
@@ -242,6 +241,7 @@ const PomodoroTask = (function () {
             this._btnStop.classList.add('hide');
 
             this.element.firstChild.classList.remove('pulse');
+            this.element.firstChild.classList.add('darken-2');
         }
 
         /**
@@ -257,14 +257,13 @@ const PomodoroTask = (function () {
         finish () {
             this.stop();
             this.finished = true;
-            this.element.firstChild.classList.remove('pulse');
 
             this._btnStart.classList.add('hide');
             this._btnStop.classList.add('hide');
             this._btnRestart.classList.remove('hide');
 
-            this.element.firstChild.classList.remove('accent-4');
-            this.element.firstChild.classList.add('darken-3');
+            this.element.firstChild.classList.remove('pulse', 'darken-2');
+            this.element.firstChild.classList.add('darken-4');
 
 
             Mediator.Publish(PomodoroTask.Subscritions.FINISHED, this);
