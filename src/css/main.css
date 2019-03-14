@@ -5,6 +5,12 @@ html, body {
     width: 100%;
 }
 
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
 nav {
     position: relative;
     z-index: 100;
@@ -19,11 +25,9 @@ nav {
 }
 
 footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    z-index: 100;
-    margin-top: 120px;
+    /*position: absolute;*/
+    /*bottom: 0;*/
+    /*width: 100%;*/
 }
 
 #addBtn {
@@ -33,4 +37,9 @@ footer {
 
 .modal-content {
     min-height: 200px;
+}
+
+section#container {
+    flex: 1;
+    margin-bottom: 120px;
 }
